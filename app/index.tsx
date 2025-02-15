@@ -31,10 +31,7 @@ export default function App() {
 function Main({ user }: { user: User }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Hello {user.email}!</Text>
-      <TouchableOpacity style={styles.button} onPress={() => db.auth.signOut()}>
-        <Text style={styles.buttonText}>Sign out</Text>
-      </TouchableOpacity>
+      {/* Removed the Text and TouchableOpacity components */}
     </View>
   );
 }
