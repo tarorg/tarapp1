@@ -1,4 +1,4 @@
-import { Stack, useRouter, Slot } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import { Feather } from '@expo/vector-icons';
 import React, { useEffect } from 'react';
 import { View, Pressable, Text, StyleSheet, ScrollView } from 'react-native';
@@ -51,44 +51,39 @@ export default function RootLayout() {
 
   return (
     <>
-      {user && (
-        <Stack
-          screenOptions={{
-            animation: "none",
-            headerTitle: () => <Text></Text>,
-            headerLeft: () => (
-              <Pressable onPress={() => setShowMenu(true)} style={{ paddingLeft: 16, flexDirection: "row", alignItems: "center" }}>
-                <Text style={{ fontSize: 24 }}>{selectedMenu.icon}</Text>
-                <Text style={{ fontSize: 18, marginLeft: 4 }}>{selectedMenu.label}</Text>
+      <Stack
+        screenOptions={{
+          animation: "none",
+          headerShown: !!user,
+          headerTitle: "",
+          headerLeft: () => user ? (
+            <Pressable onPress={() => setShowMenu(true)} style={{ paddingLeft: 16, flexDirection: "row", alignItems: "center" }}>
+              <Text style={{ fontSize: 24 }}>{selectedMenu.icon}</Text>
+              <Text style={{ fontSize: 18, marginLeft: 4 }}>{selectedMenu.label}</Text>
+            </Pressable>
+          ) : null,
+          headerRight: () => user ? (
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Pressable onPress={() => router.push('/t')} style={{ padding: 12 }}>
+                <Feather name="play" size={26} color="black" />
               </Pressable>
-            ),
-            headerStyle: styles.headerStyle,
-
-            headerRight: () => (
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Pressable onPress={() => router.push('/t')} style={{ padding: 12 }}>
-                  <Feather name="play" size={26} color="black" />
-                </Pressable>
-                <Pressable onPress={() => router.push('/a')} style={{ padding: 12 }}>
-                  <Feather name="circle" size={24} color="black" />
-                </Pressable>
-              </View>
-            ),
-          }}
-        >
-          <Slot />
-        </Stack>
-      )}
+              <Pressable onPress={() => router.push('/a')} style={{ padding: 12 }}>
+                <Feather name="circle" size={24} color="black" />
+              </Pressable>
+            </View>
+          ) : null,
+          headerStyle: styles.headerStyle,
+        }}
+      />
+      
       {showMenu && (
         <View style={styles.menuContainer}>
-          {/* Fixed Header */}
           <View style={styles.menuHeader}>
             <Pressable onPress={() => setShowMenu(false)}>
               <Text style={{ fontSize: 18 }}>Close</Text>
             </Pressable>
           </View>
 
-          {/* Scrollable Menu List */}
           <ScrollView style={styles.menuScroll}>
             {menuItems.map(item => (
               <Pressable 
