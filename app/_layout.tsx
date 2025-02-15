@@ -1,6 +1,6 @@
-import { Stack, useRouter } from "expo-router";
+import { Stack, useRouter, Slot } from "expo-router";
 import { Feather } from '@expo/vector-icons';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Pressable, Text, StyleSheet, ScrollView } from 'react-native';
 import { init } from "@instantdb/react-native";
 
@@ -8,25 +8,34 @@ const db = init({ appId: "84f087af-f6a5-4a5f-acbc-bc4008e3a725" });
 
 export default function RootLayout() {
   const router = useRouter();
-  const { user } = db.useAuth();
+  const { user, isLoading } = db.useAuth();
   const [showMenu, setShowMenu] = React.useState(false);
   const [selectedMenu, setSelectedMenu] = React.useState<{ label: string; icon: string }>({ label: "Space", icon: "🌌" });
+
+  useEffect(() => {
+    if (!isLoading && user) {
+      router.replace("/space");
+    } else if (!isLoading && !user) {
+      router.replace("/");
+    }
+  }, [isLoading, user]);
+
   const menuItems = [
-    { id: 1, label: 'Space', icon: '🌌', route: '/space' },
-    { id: 2, label: 'Sales', icon: '🎈', route: '/sales' },
-    { id: 3, label: 'Products', icon: '📦', route: '/products' },
-    { id: 4, label: 'Inventory', icon: ' 🀫', route: '/inventory' },
-    { id: 5, label: 'Posts', icon: '🥁', route: '/posts' },
-    { id: 6, label: 'Pages', icon: '🔗', route: '/pages' },
-    { id: 7, label: 'Path', icon: '〰️', route: '/path' },
-    { id: 8, label: 'Analytics', icon: '🎯', route: '/analytics' },
-    { id: 9, label: 'Settings', icon: '🎮', route: '/settings' },
-    { id: 10, label: 'AI agent', icon: '🕹️', route: '/ai-agent' },
+    { id: 1, label: 'Space', icon: '🌌', route: '/space' as const },
+    { id: 2, label: 'Sales', icon: '🎈', route: '/sales' as const },
+    { id: 3, label: 'Products', icon: '📦', route: '/products' as const },
+    { id: 4, label: 'Inventory', icon: ' 🀫', route: '/inventory' as const },
+    { id: 5, label: 'Posts', icon: '🥁', route: '/posts' as const },
+    { id: 6, label: 'Pages', icon: '🔗', route: '/pages' as const },
+    { id: 7, label: 'Path', icon: '〰️', route: '/path' as const },
+    { id: 8, label: 'Analytics', icon: '🎯', route: '/analytics' as const },
+    { id: 9, label: 'Settings', icon: '🎮', route: '/settings' as const },
+    { id: 10, label: 'AI agent', icon: '🕹️', route: '/ai-agent' as const },
     { 
       id: 11, 
       label: 'Sign Out', 
       icon: '👋', 
-      route: '/',
+      route: '/' as const,
       subText: user ? `ID: ${user.id}\n${user.email}` : '',
       action: () => {
         db.auth.signOut();
@@ -36,32 +45,40 @@ export default function RootLayout() {
     },
   ];
 
+  if (isLoading) {
+    return null;
+  }
+
   return (
     <>
-      <Stack
-        screenOptions={{
-          animation: "none",
-          headerTitle: () => <Text></Text>,
-          headerLeft: () => (
-            <Pressable onPress={() => setShowMenu(true)} style={{ paddingLeft: 16, flexDirection: "row", alignItems: "center" }}>
-              <Text style={{ fontSize: 24 }}>{selectedMenu.icon}</Text>
-              <Text style={{ fontSize: 18, marginLeft: 4 }}>{selectedMenu.label}</Text>
-            </Pressable>
-          ),
-          headerStyle: styles.headerStyle,
+      {user && (
+        <Stack
+          screenOptions={{
+            animation: "none",
+            headerTitle: () => <Text></Text>,
+            headerLeft: () => (
+              <Pressable onPress={() => setShowMenu(true)} style={{ paddingLeft: 16, flexDirection: "row", alignItems: "center" }}>
+                <Text style={{ fontSize: 24 }}>{selectedMenu.icon}</Text>
+                <Text style={{ fontSize: 18, marginLeft: 4 }}>{selectedMenu.label}</Text>
+              </Pressable>
+            ),
+            headerStyle: styles.headerStyle,
 
-          headerRight: () => (
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Pressable onPress={() => router.push('/t')} style={{ padding: 12 }}>
-                <Feather name="play" size={26} color="black" />
-              </Pressable>
-              <Pressable onPress={() => router.push('/a')} style={{ padding: 12 }}>
-                <Feather name="circle" size={24} color="black" />
-              </Pressable>
-            </View>
-          ),
-        }}
-      />
+            headerRight: () => (
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Pressable onPress={() => router.push('/t')} style={{ padding: 12 }}>
+                  <Feather name="play" size={26} color="black" />
+                </Pressable>
+                <Pressable onPress={() => router.push('/a')} style={{ padding: 12 }}>
+                  <Feather name="circle" size={24} color="black" />
+                </Pressable>
+              </View>
+            ),
+          }}
+        >
+          <Slot />
+        </Stack>
+      )}
       {showMenu && (
         <View style={styles.menuContainer}>
           {/* Fixed Header */}

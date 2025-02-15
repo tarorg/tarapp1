@@ -1,42 +1,12 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { Text, View, TextInput, TouchableOpacity, StyleSheet } from "react-native";
-import { Stack, useRouter } from "expo-router";
-import { init, User } from "@instantdb/react-native";
+import { Stack } from "expo-router";
+import { init } from "@instantdb/react-native";
 
 const APP_ID = "84f087af-f6a5-4a5f-acbc-bc4008e3a725";
 const db = init({ appId: APP_ID });
 
 export default function App() {
-  const { isLoading, user, error } = db.useAuth();
-
-  if (isLoading) {
-    return null;
-  }
-
-  if (error) {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.errorText}>Uh oh! {error.message}</Text>
-      </View>
-    );
-  }
-
-  if (user) {
-    return <Main user={user} />;
-  }
-
-  return <Login />;
-}
-
-function Main({ user }: { user: User }) {
-  return (
-    <View style={styles.container}>
-      {/* Removed the Text and TouchableOpacity components */}
-    </View>
-  );
-}
-
-function Login() {
   const [sentEmail, setSentEmail] = useState("");
 
   return (
@@ -86,13 +56,9 @@ function EmailStep({ onSendEmail }: { onSendEmail: (email: string) => void }) {
 
 function CodeStep({ sentEmail }: { sentEmail: string }) {
   const [code, setCode] = useState("");
-  const router = useRouter();
 
   const handleSubmit = () => {
     db.auth.signInWithMagicCode({ email: sentEmail, code })
-      .then(() => {
-        router.replace("/space");
-      })
       .catch((err) => {
         setCode("");
         alert("Uh oh :" + err.body?.message);
