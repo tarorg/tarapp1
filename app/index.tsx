@@ -1,10 +1,74 @@
-import React, { useState } from "react";
-import { Text, View, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import { Text, View, TextInput, TouchableOpacity, StyleSheet, Animated } from "react-native";
 import { Stack } from "expo-router";
 import { init } from "@instantdb/react-native";
 
 const APP_ID = "84f087af-f6a5-4a5f-acbc-bc4008e3a725";
 const db = init({ appId: APP_ID });
+
+function AnimatedSubtext() {
+  const words = ["shop", "bookings", "commerce", "posts", "pages", "AI agents"];
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const translateY = useRef(new Animated.Value(20)).current;
+
+  useEffect(() => {
+    const animate = () => {
+      translateY.setValue(20);
+      fadeAnim.setValue(0);
+
+      Animated.parallel([
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 500, // faster fade in
+          useNativeDriver: true,
+        }),
+        Animated.timing(translateY, {
+          toValue: 0,
+          duration: 500, // faster slide
+          useNativeDriver: true,
+        }),
+      ]).start();
+
+      setTimeout(() => {
+        Animated.parallel([
+          Animated.timing(fadeAnim, {
+            toValue: 0,
+            duration: 500, // faster fade out
+            useNativeDriver: true,
+          }),
+          Animated.timing(translateY, {
+            toValue: -20,
+            duration: 500, // faster slide
+            useNativeDriver: true,
+          }),
+        ]).start();
+      }, 1500); // show text for shorter time
+    };
+
+    animate();
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % words.length);
+      animate();
+    }, 2500); // shorter total cycle
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <Animated.Text
+      style={[
+        styles.animatedText,
+        {
+          opacity: fadeAnim,
+          transform: [{ translateY }],
+        },
+      ]}
+    >
+      {words[currentIndex]}
+    </Animated.Text>
+  );
+}
 
 export default function App() {
   const [sentEmail, setSentEmail] = useState("");
@@ -12,11 +76,17 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Stack.Screen options={{ headerShown: false }} />
-      {!sentEmail ? (
-        <EmailStep onSendEmail={setSentEmail} />
-      ) : (
-        <CodeStep sentEmail={sentEmail} />
-      )}
+      <View style={styles.topContainer}>
+        <Text style={styles.logoText}>tar.</Text>
+        <AnimatedSubtext />
+      </View>
+      <View style={styles.bottomContainer}>
+        {!sentEmail ? (
+          <EmailStep onSendEmail={setSentEmail} />
+        ) : (
+          <CodeStep sentEmail={sentEmail} />
+        )}
+      </View>
     </View>
   );
 }
@@ -34,11 +104,6 @@ function EmailStep({ onSendEmail }: { onSendEmail: (email: string) => void }) {
 
   return (
     <View style={styles.formContainer}>
-      <Text style={styles.title}>Let's log you in</Text>
-      <Text style={styles.description}>
-        Enter your email, and we'll send you a verification code. We'll create
-        an account for you too if you don't already have one.
-      </Text>
       <TextInput
         style={styles.input}
         value={email}
@@ -67,10 +132,9 @@ function CodeStep({ sentEmail }: { sentEmail: string }) {
 
   return (
     <View style={styles.formContainer}>
-      <Text style={styles.title}>Enter your code</Text>
+      <Text style={styles.title}>Verify</Text>
       <Text style={styles.description}>
-        We sent an email to <Text style={styles.bold}>{sentEmail}</Text>. Check your email, and
-        paste the code you see.
+        Code sent to <Text style={styles.bold}>{sentEmail}</Text>
       </Text>
       <TextInput
         style={styles.input}
@@ -80,7 +144,7 @@ function CodeStep({ sentEmail }: { sentEmail: string }) {
         keyboardType="number-pad"
       />
       <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-        <Text style={styles.buttonText}>Verify Code</Text>
+        <Text style={styles.buttonText}>Verify</Text>
       </TouchableOpacity>
     </View>
   );
@@ -89,24 +153,35 @@ function CodeStep({ sentEmail }: { sentEmail: string }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#FFFFFF",
+  },
+  topContainer: {
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     padding: 16,
-    backgroundColor: "#FFFFFF",
+  },
+  bottomContainer: {
+    padding: 16,
+    paddingBottom: 32,
+    justifyContent: "flex-end",
+    alignItems: "center",  // Add this to center horizontally
   },
   formContainer: {
     width: "100%",
     maxWidth: 320,
     gap: 16,
+    alignItems: "center",  // Add this to center contents
   },
   title: {
-    fontSize: 24,
+    fontSize: 70,
     fontWeight: "bold",
     marginBottom: 8,
   },
   description: {
     color: "#666",
     marginBottom: 16,
+    textAlign: "center",  // Add this to center text
   },
   input: {
     borderWidth: 1,
@@ -114,15 +189,17 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 4,
     marginBottom: 16,
+    width: "100%",  // Add this to maintain full width
   },
   button: {
-    backgroundColor: "#2563eb",
+    backgroundColor: "#f5f5f5",  // Changed from #2563eb to light grey
     padding: 12,
     borderRadius: 4,
     alignItems: "center",
+    width: "100%",  // Add this to maintain full width
   },
   buttonText: {
-    color: "white",
+    color: "#666",  // Changed from white to grey
     fontWeight: "bold",
   },
   errorText: {
@@ -130,5 +207,21 @@ const styles = StyleSheet.create({
   },
   bold: {
     fontWeight: "bold",
+  },
+  animatedText: {
+    fontSize: 40, // matching size
+    fontWeight: "900",
+    marginBottom: 32,
+    fontFamily: "monospace",
+    color: '#666',
+    letterSpacing: -2,
+  },
+  logoText: {
+    fontSize: 120,
+    fontWeight: "900",
+    marginBottom: 0, // Changed from 32 to 0
+    fontFamily: "monospace",
+    letterSpacing: -2,
+    textTransform: "lowercase",
   },
 });
