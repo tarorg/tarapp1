@@ -8,16 +8,16 @@ export default function RootLayout() {
   const [showMenu, setShowMenu] = React.useState(false);
   const [selectedMenu, setSelectedMenu] = React.useState<{ label: string; icon: string }>({ label: "Space", icon: "🌌" });
   const menuItems = [
-    { id: 1, label: 'Space', icon: '🌌' },
-    { id: 2, label: 'Sales', icon: '🎈' },
-    { id: 3, label: 'Products', icon: '📦' },
-    { id: 4, label: 'Inventory', icon: ' 🀫' },
-    { id: 5, label: 'Posts', icon: '🥁' },
-    { id: 6, label: 'Pages', icon: '🔗' },
-    { id: 7, label: 'Path', icon: '〰️' },
-    { id: 8, label: 'Analytics', icon: '🎯' },
-    { id: 9, label: 'Settings', icon: '🎮' },
-    { id: 10, label: 'AI agent', icon: '🕹️' },
+    { id: 1, label: 'Space', icon: '🌌', route: '/space' },
+    { id: 2, label: 'Sales', icon: '🎈', route: '/sales' },
+    { id: 3, label: 'Products', icon: '📦', route: '/products' },
+    { id: 4, label: 'Inventory', icon: '🀫', route: '/inventory' },
+    { id: 5, label: 'Posts', icon: '🥁', route: '/posts' },
+    { id: 6, label: 'Pages', icon: '🔗', route: '/pages' },
+    { id: 7, label: 'Path', icon: '〰️', route: '/path' },
+    { id: 8, label: 'Analytics', icon: '🎯', route: '/analytics' },
+    { id: 9, label: 'Settings', icon: '🎮', route: '/settings' },
+    { id: 10, label: 'AI agent', icon: '🕹️', route: '/ai-agent' },
   ];
 
   return (
@@ -54,7 +54,7 @@ export default function RootLayout() {
             </Pressable>
           </View>
           {menuItems.map(item => (
-            <Pressable key={item.id} onPress={() => { setSelectedMenu(item); setShowMenu(false); }}>
+            <Pressable key={item.id} onPress={() => { setSelectedMenu(item); setShowMenu(false); router.push(item.route); }}>
               <View style={{ padding: 16, borderBottomWidth: 1, borderBottomColor: "#eee", flexDirection: "row", alignItems: "center" }}>
                 <Text style={{ fontSize: 24, marginRight: 8 }}>{item.icon}</Text>
                 <Text style={{ fontSize: 18 }}>{item.label}</Text>
