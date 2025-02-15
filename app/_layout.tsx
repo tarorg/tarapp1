@@ -11,7 +11,7 @@ export default function RootLayout() {
     { id: 1, label: 'Space', icon: '🌌', route: '/space' },
     { id: 2, label: 'Sales', icon: '🎈', route: '/sales' },
     { id: 3, label: 'Products', icon: '📦', route: '/products' },
-    { id: 4, label: 'Inventory', icon: '🀫', route: '/inventory' },
+    { id: 4, label: 'Inventory', icon: ' 🀫', route: '/inventory' },
     { id: 5, label: 'Posts', icon: '🥁', route: '/posts' },
     { id: 6, label: 'Pages', icon: '🔗', route: '/pages' },
     { id: 7, label: 'Path', icon: '〰️', route: '/path' },
@@ -56,7 +56,7 @@ export default function RootLayout() {
           {menuItems.map(item => (
             <Pressable key={item.id} onPress={() => { setSelectedMenu(item); setShowMenu(false); router.push(item.route); }}>
               <View style={{ padding: 16, borderBottomWidth: 1, borderBottomColor: "#eee", flexDirection: "row", alignItems: "center" }}>
-                <Text style={{ fontSize: 24, marginRight: 8 }}>{item.icon}</Text>
+                <Text style={{ fontSize: 24, marginRight: 8, width: 30 }}>{item.icon}</Text>
                 <Text style={{ fontSize: 18 }}>{item.label}</Text>
               </View>
             </Pressable>
