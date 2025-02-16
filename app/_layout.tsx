@@ -14,23 +14,23 @@ export default function RootLayout() {
 
   useEffect(() => {
     if (!isLoading && user) {
-      router.replace("/space");
+      router.replace("/screens/space");
     } else if (!isLoading && !user) {
       router.replace("/");
     }
   }, [isLoading, user]);
 
   const menuItems = [
-    { id: 1, label: 'Space', icon: '🌌', route: '/space' as const },
-    { id: 2, label: 'Sales', icon: '🎈', route: '/sales' as const },
-    { id: 3, label: 'Products', icon: '📦', route: '/products' as const },
-    { id: 4, label: 'Inventory', icon: ' 🀫', route: '/inventory' as const },
-    { id: 5, label: 'Posts', icon: '🥁', route: '/posts' as const },
-    { id: 6, label: 'Pages', icon: '🔗', route: '/pages' as const },
-    { id: 7, label: 'Path', icon: '〰️', route: '/path' as const },
-    { id: 8, label: 'Analytics', icon: '🎯', route: '/analytics' as const },
-    { id: 9, label: 'Settings', icon: '🎮', route: '/settings' as const },
-    { id: 10, label: 'AI agent', icon: '🕹️', route: '/ai-agent' as const },
+    { id: 1, label: 'Space', icon: '🌌', route: '/screens/space' as const },
+    { id: 2, label: 'Sales', icon: '🎈', route: '/screens/sales' as const },
+    { id: 3, label: 'Products', icon: '📦', route: '/screens/products' as const },
+    { id: 4, label: 'Inventory', icon: ' 🀫', route: '/screens/inventory' as const },
+    { id: 5, label: 'Posts', icon: '🥁', route: '/screens/posts' as const },
+    { id: 6, label: 'Pages', icon: '🔗', route: '/screens/pages' as const },
+    { id: 7, label: 'Path', icon: '〰️', route: '/screens/path' as const },
+    { id: 8, label: 'Analytics', icon: '🎯', route: '/screens/analytics' as const },
+    { id: 9, label: 'Settings', icon: '🎮', route: '/screens/settings' as const },
+    { id: 10, label: 'AI agent', icon: '🕹️', route: '/screens/ai-agent' as const },
     { 
       id: 11, 
       label: 'Sign Out', 
