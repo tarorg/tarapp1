@@ -64,10 +64,10 @@ export default function RootLayout() {
           ) : null,
           headerRight: () => user ? (
             <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Pressable onPress={() => router.push('/t')} style={{ padding: 12 }}>
+              <Pressable onPress={() => router.push('/screens/t')} style={{ padding: 12 }}>
                 <Feather name="play" size={26} color="black" />
               </Pressable>
-              <Pressable onPress={() => router.push('/a')} style={{ padding: 12 }}>
+              <Pressable onPress={() => router.push('/screens/a')} style={{ padding: 12 }}>
                 <Feather name="circle" size={24} color="black" />
               </Pressable>
             </View>
