@@ -7,7 +7,7 @@ const APP_ID = "84f087af-f6a5-4a5f-acbc-bc4008e3a725";
 const db = init({ appId: APP_ID });
 
 function AnimatedSubtext() {
-  const words = ["shop", "bookings", "commerce", "posts", "pages", "AI agents"];
+  const words = ["stores", "bookings", "commerce", "posts", "pages", "AI agents"];
   const [currentIndex, setCurrentIndex] = useState(0);
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const translateY = useRef(new Animated.Value(20)).current;
@@ -225,11 +225,11 @@ const styles = StyleSheet.create({
     textAlign: "center", // Center text horizontally
   },
   logoText: {
-    fontSize: 60,
+    fontSize: 30,
     fontWeight: "900",
     marginBottom: 0, // Changed from 32 to 0
     fontFamily: "PressStart2P", // Changed from monospace to pixel font
-    letterSpacing: -2,
+    letterSpacing: 0,
     textTransform: "lowercase",
   },
   iconContainer: {
