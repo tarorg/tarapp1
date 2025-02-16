@@ -77,8 +77,16 @@ export default function App() {
     <View style={styles.container}>
       <Stack.Screen options={{ headerShown: false }} />
       <View style={styles.topContainer}>
+        <View style={styles.iconContainer}>
+          <View style={styles.iconSquare}>
+            <AnimatedSubtext />
+          </View>
+          <View style={styles.iconRow}>
+            <View style={styles.iconTriangle} />
+            <View style={styles.iconCircle} />
+          </View>
+        </View>
         <Text style={styles.logoText}>tar.</Text>
-        <AnimatedSubtext />
       </View>
       <View style={styles.bottomContainer}>
         {!sentEmail ? (
@@ -174,7 +182,7 @@ const styles = StyleSheet.create({
     alignItems: "center",  // Add this to center contents
   },
   title: {
-    fontSize: 70,
+    fontSize: 50,
     fontWeight: "bold",
     marginBottom: 8,
   },
@@ -187,14 +195,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#ccc",
     padding: 12,
-    borderRadius: 4,
+    borderRadius: 10,  // Changed from 4 to 10
     marginBottom: 16,
     width: "100%",  // Add this to maintain full width
   },
   button: {
     backgroundColor: "#f5f5f5",  // Changed from #2563eb to light grey
     padding: 12,
-    borderRadius: 4,
+    borderRadius: 10,  // Changed from 4 to 10
     alignItems: "center",
     width: "100%",  // Add this to maintain full width
   },
@@ -209,19 +217,60 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   animatedText: {
-    fontSize: 40, // matching size
-    fontWeight: "900",
-    marginBottom: 32,
+    fontSize: 10, // matching size
+    fontWeight: "200",
     fontFamily: "monospace",
-    color: '#666',
-    letterSpacing: -2,
+    color: '#fff',
+    letterSpacing: 2,
+    textAlign: "center", // Center text horizontally
   },
   logoText: {
-    fontSize: 120,
+    fontSize: 60,
     fontWeight: "900",
     marginBottom: 0, // Changed from 32 to 0
-    fontFamily: "monospace",
+    fontFamily: "PressStart2P", // Changed from monospace to pixel font
     letterSpacing: -2,
     textTransform: "lowercase",
+  },
+  iconContainer: {
+    alignItems: "center",
+    marginTop: 16,
+    marginBottom: 16,
+    borderWidth: 0.5,
+    borderColor: "#ccc",
+    borderRadius: 10, // Added rounded border
+    padding: 8, // Added padding for better appearance
+  },
+  iconRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: 80,
+    marginTop: 8,
+  },
+  iconSquare: {
+    width: 80, // Adjusted width to fit the animated text
+    height: 50, // Adjusted height to fit the animated text
+    backgroundColor: "blue",
+    borderRadius: 5,  // Added corner radius
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  iconTriangle: {
+    width: 0,
+    height: 0,
+    borderLeftWidth: 12,
+    borderRightWidth: 12,
+    borderBottomWidth: 24,
+    borderLeftColor: "transparent",
+    borderRightColor: "transparent",
+    borderBottomColor: "orange",
+    transform: [{ rotate: '90deg' }],
+
+  },
+  iconCircle: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: "red",
   },
 });

@@ -32,10 +32,17 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "fonts": [
+      {
+        "asset": "./assets/fonts/PressStart2P-Regular.ttf",
+        "family": "PressStart2P"
+      }
+    ]
   }
 }
