@@ -10,7 +10,7 @@ export default function Index() {
         backgroundColor: "#FFFFFF", 
       }}
     >
-      <Text style={{ fontSize: 32, fontWeight: 'bold' }}>t.</Text>
+      <Text style={{ fontSize: 32, fontWeight: 'bold' }}>tasks.</Text>
     </View>
   );
 }
