@@ -23,7 +23,7 @@ export default function RootLayout() {
   const menuItems = [
     { id: 1, label: 'Space', icon: '🌌', route: '/screens/space' as const },
     { id: 2, label: 'Sales', icon: '🎈', route: '/screens/sales' as const },
-    { id: 3, label: 'Products', icon: '📦', route: '/screens/products' as const },
+    { id: 3, label: 'Products', icon: '📦', route: '/screens/commerce/products' as const },
     { id: 4, label: 'Inventory', icon: ' 🀫', route: '/screens/inventory' as const },
     { id: 5, label: 'Posts', icon: '🥁', route: '/screens/posts' as const },
     { id: 6, label: 'Pages', icon: '🔗', route: '/screens/pages' as const },
