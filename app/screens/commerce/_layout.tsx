@@ -21,12 +21,29 @@ export default function RootLayout() {
     <>
       <SQLiteProvider databaseName="test.db" onInit={createDbIfNeeded}>
         <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="+not-found" />
+          <Stack.Screen 
+            name="products" 
+            options={{
+              headerShown: false
+            }}
+          />
           <Stack.Screen
             name="modal"
             options={{
               presentation: "modal",
+              headerShown: false
+            }}
+          />
+          <Stack.Screen
+            name="inventory"
+            options={{
+              headerShown: false
+            }}
+          />
+          <Stack.Screen
+            name="sales"
+            options={{
+              headerShown: false
             }}
           />
         </Stack>
